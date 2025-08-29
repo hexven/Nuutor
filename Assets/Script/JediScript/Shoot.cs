@@ -32,6 +32,9 @@ public class Shoot : MonoBehaviour
     [SerializeField] private int currentAmmo = 6;
     [SerializeField] private TextMeshProUGUI ammoText;
 
+    [Header("Targeting")]
+    [SerializeField] private float shootRange = 100f;
+
     void Awake()
     {
         if (cameraTransform == null && Camera.main != null)
@@ -170,6 +173,20 @@ public class Shoot : MonoBehaviour
         if (audioSource != null && fireClip != null)
         {
             audioSource.PlayOneShot(fireClip, fireVolume);
+        }
+
+        // Raycast from camera forward to hit targets under the crosshair
+        if (cameraTransform != null)
+        {
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, shootRange))
+            {
+                Target target = hitInfo.collider.GetComponentInParent<Target>();
+                if (target != null)
+                {
+                    Destroy(target.gameObject);
+                }
+            }
         }
     }
 
