@@ -483,6 +483,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 991372921059066531, guid: ab6289c4f500444e5b97c1d0fbbe6593, type: 3}
       insertIndex: -1
       addedObject: {fileID: 989360016}
+    - targetCorrespondingSourceObject: {fileID: 991372921059066531, guid: ab6289c4f500444e5b97c1d0fbbe6593, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 989360017}
   m_SourcePrefab: {fileID: 100100000, guid: ab6289c4f500444e5b97c1d0fbbe6593, type: 3}
 --- !u!1 &741941640
 GameObject:
@@ -747,6 +750,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.09375}
   m_EdgeRadius: 0
+--- !u!114 &989360017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989360012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1120645c1436d4911b43fe245fad945f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  useMainCameraIfTargetNull: 1
+  rotateOnlyAroundY: 1
+  invertFacing: 0
+  rotateLerpSpeed: 0
 --- !u!1 &1172650593
 GameObject:
   m_ObjectHideFlags: 0
