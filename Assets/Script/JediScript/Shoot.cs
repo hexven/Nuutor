@@ -23,6 +23,9 @@ public class Shoot : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip fireClip;
     [SerializeField] private float fireVolume = 1f;
+    [Header("Fire Rate")]
+    [SerializeField] private float fireCooldown = 1f;
+    private float nextFireTime;
 
     private float recoilZ;
     private float shakeTimeRemaining;
@@ -158,6 +161,10 @@ public class Shoot : MonoBehaviour
 
     private void Fire()
     {
+        if (Time.time < nextFireTime)
+        {
+            return;
+        }
         if (currentAmmo <= 0)
         {
             return;
@@ -175,19 +182,54 @@ public class Shoot : MonoBehaviour
             audioSource.PlayOneShot(fireClip, fireVolume);
         }
 
-        // Raycast from camera forward to hit targets under the crosshair
+        // Raycast from camera forward to hit targets under the crosshair (3D and 2D)
         if (cameraTransform != null)
         {
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, shootRange))
+            // 3D hit
+            Ray ray3D = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (Physics.Raycast(ray3D, out RaycastHit hitInfo3D, shootRange))
             {
-                Target target = hitInfo.collider.GetComponentInParent<Target>();
-                if (target != null)
+                Target target3D = hitInfo3D.collider.GetComponentInParent<Target>();
+                if (target3D != null)
                 {
-                    Destroy(target.gameObject);
+                    Destroy(target3D.gameObject);
+                    return;
+                }
+
+                SpriteRenderer sr3D = hitInfo3D.collider.GetComponentInParent<SpriteRenderer>();
+                if (sr3D != null)
+                {
+                    Destroy(sr3D.gameObject);
+                    return;
+                }
+            }
+
+            // 2D hit (supports SpriteRenderer with 2D colliders)
+            Camera cam = cameraComponent != null ? cameraComponent : Camera.main;
+            if (cam != null)
+            {
+                Ray ray2D = cam.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f));
+                RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray2D, shootRange);
+                if (hit2D.collider != null)
+                {
+                    Target target2D = hit2D.collider.GetComponentInParent<Target>();
+                    if (target2D != null)
+                    {
+                        Destroy(target2D.gameObject);
+                        return;
+                    }
+
+                    SpriteRenderer sr2D = hit2D.collider.GetComponentInParent<SpriteRenderer>();
+                    if (sr2D != null)
+                    {
+                        Destroy(sr2D.gameObject);
+                        return;
+                    }
                 }
             }
         }
+
+        nextFireTime = Time.time + fireCooldown;
     }
 
     public bool TryReload()
