@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2692500505416599250}
   - component: {fileID: 9122488359283151551}
   - component: {fileID: 2021488192599307506}
+  - component: {fileID: 6969115535184219352}
   m_Layer: 0
   m_Name: frog
   m_TagString: Untagged
@@ -179,3 +180,25 @@ MonoBehaviour:
   rotateOnlyAroundY: 1
   invertFacing: 0
   rotateLerpSpeed: 0
+--- !u!95 &6969115535184219352
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991372921059066531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2523068cb847c034f9f03784616a35bd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
