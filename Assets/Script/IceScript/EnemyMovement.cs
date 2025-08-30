@@ -29,5 +29,5 @@ public class EnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0); // Adjust angle if needed (e.g., sprite orientation)
         
     }
-}
+ }
 }
