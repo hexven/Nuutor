@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class Health : MonoBehaviour
     private CharacterController characterController;
     private Vector3 knockbackVelocity;
     private float knockbackTimeRemaining;
+    private bool isDead;
+
+    [Header("Death/Scene Transition")]
+    [SerializeField] private string deathSceneName = "BadEnd";
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private float deathVolume = 1f;
 
     void Awake()
     {
@@ -52,6 +59,13 @@ public class Health : MonoBehaviour
         }
         currentHealth = Mathf.Max(0, currentHealth - amount);
         UpdateUI();
+
+        if (!isDead && currentHealth <= 0)
+        {
+            isDead = true;
+            PlayDeathAudioAndLoadScene();
+            return;
+        }
 
         // Optionally skip knockback if player is moving (WASD)
         if (ignoreKnockbackWhileMoving)
@@ -104,5 +118,24 @@ public class Health : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void PlayDeathAudioAndLoadScene()
+    {
+        GameObject audioGO = null;
+        if (deathClip != null)
+        {
+            audioGO = new GameObject("DeathAudio");
+            DontDestroyOnLoad(audioGO);
+            var src = audioGO.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            src.loop = false;
+            src.spatialBlend = 0f;
+            src.clip = deathClip;
+            src.volume = Mathf.Clamp01(deathVolume);
+            src.Play();
+            Object.Destroy(audioGO, deathClip.length + 0.1f);
+        }
+        SceneManager.LoadScene(deathSceneName);
     }
 }
