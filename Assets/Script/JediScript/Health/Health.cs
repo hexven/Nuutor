@@ -89,4 +89,20 @@ public class Health : MonoBehaviour
             healthSlider.value = currentHealth;
         }
     }
+
+    public bool Heal(int amount)
+    {
+        if (amount <= 0)
+        {
+            return false;
+        }
+        int before = currentHealth;
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        if (currentHealth != before)
+        {
+            UpdateUI();
+            return true;
+        }
+        return false;
+    }
 }
