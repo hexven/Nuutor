@@ -53,6 +53,11 @@ public class Health : MonoBehaviour
 
     public void ApplyDamage(int amount, Vector3 attackerPosition)
     {
+        ApplyDamageWithPush(amount, attackerPosition, knockbackForce, knockbackUpward, knockbackDuration, true);
+    }
+
+    public void ApplyDamageWithPush(int amount, Vector3 attackerPosition, float pushForce, float pushUpward, float pushDuration, bool respectIgnoreMoving)
+    {
         if (currentHealth <= 0)
         {
             return;
@@ -67,8 +72,7 @@ public class Health : MonoBehaviour
             return;
         }
 
-        // Optionally skip knockback if player is moving (WASD)
-        if (ignoreKnockbackWhileMoving)
+        if (respectIgnoreMoving && ignoreKnockbackWhileMoving)
         {
             float moveX = Input.GetAxisRaw("Horizontal");
             float moveZ = Input.GetAxisRaw("Vertical");
@@ -78,16 +82,15 @@ public class Health : MonoBehaviour
             }
         }
 
-        // Knockback away from attacker
         Vector3 away = (transform.position - attackerPosition);
         away.y = 0f;
         if (away.sqrMagnitude > 0.0001f)
         {
             away = away.normalized;
         }
-        Vector3 up = Vector3.up * knockbackUpward;
-        knockbackVelocity = (away * knockbackForce) + up;
-        knockbackTimeRemaining = knockbackDuration;
+        Vector3 up = Vector3.up * pushUpward;
+        knockbackVelocity = (away * pushForce) + up;
+        knockbackTimeRemaining = pushDuration;
     }
 
     private void UpdateUI()
