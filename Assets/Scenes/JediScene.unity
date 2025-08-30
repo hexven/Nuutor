@@ -159,12 +159,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.70832
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.70832
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.70832
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.269968
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.4
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c626f90c615733478233626405b28ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -934,7 +946,8 @@ MonoBehaviour:
   cooldownSeconds: 1
   damagePerHit: 10
   audioSource: {fileID: 0}
-  attackClips: []
+  attackClips:
+  - {fileID: 8300000, guid: 34bef8d142b314b6285ac912aac833ef, type: 3}
   attackVolume: 1
   randomizePitch: 0
   minPitch: 0.95
@@ -1691,7 +1704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 50
-  pickupClip: {fileID: 0}
+  pickupClip: {fileID: 8300000, guid: 3fa961e9e62aa4c7d89123ccba0a51c6, type: 3}
   volume: 1
   destroyDelay: 0.02
 --- !u!65 &2049474622
