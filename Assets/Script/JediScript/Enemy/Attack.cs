@@ -9,6 +9,9 @@ public class Attack : MonoBehaviour
     [SerializeField] private float range = 2.0f;
     [SerializeField] private float cooldownSeconds = 1.0f;
     [SerializeField] private int damagePerHit = 10;
+    [SerializeField] private float pushForce = 20f;
+    [SerializeField] private float pushUpward = 5f;
+    [SerializeField] private float pushDuration = 0.45f;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -17,10 +20,6 @@ public class Attack : MonoBehaviour
     [SerializeField] private bool randomizePitch = false;
     [SerializeField] private float minPitch = 0.95f;
     [SerializeField] private float maxPitch = 1.05f;
-
-    [Header("Animation")]
-    [SerializeField] private Animator animator; // อ้างอิง Animator Component
-    [SerializeField] private string attackTriggerName = "Attack"; // ชื่อ Trigger Parameter ใน Animator
 
     private float nextAttackTime;
 
@@ -40,12 +39,6 @@ public class Attack : MonoBehaviour
                 audioSource.playOnAwake = false;
                 audioSource.spatialBlend = 1f;
             }
-        }
-
-        // Auto-assign Animator if not set
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
         }
     }
 
@@ -74,9 +67,9 @@ public class Attack : MonoBehaviour
         Health health = target.GetComponentInParent<Health>();
         if (health != null)
         {
-            health.ApplyDamage(damagePerHit, transform.position);
+            // Always apply push, even if the player is moving
+            health.ApplyDamageWithPush(damagePerHit, transform.position, pushForce, pushUpward, pushDuration, false);
             PlayAttackSound();
-            PlayAttackAnimation(); // เพิ่มการเรียกใช้ animation
         }
     }
 
@@ -98,14 +91,5 @@ public class Attack : MonoBehaviour
         }
         audioSource.PlayOneShot(clip, attackVolume);
         audioSource.pitch = originalPitch;
-    }
-
-    // เพิ่มฟังก์ชันใหม่สำหรับเล่น animation
-    private void PlayAttackAnimation()
-    {
-        if (animator != null && !string.IsNullOrEmpty(attackTriggerName))
-        {
-            animator.SetTrigger(attackTriggerName);
-        }
     }
 }
