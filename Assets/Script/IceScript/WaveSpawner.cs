@@ -60,7 +60,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (currentWave <= maxWaves)
             {
-                enemyCountText.text = $"Frogs Left: {destroyedEnemies}/{maxEnemiesThisWave}";
+                enemyCountText.text = $": {destroyedEnemies}/{maxEnemiesThisWave}";
                 Debug.Log($"Updating enemy count: {destroyedEnemies}/{maxEnemiesThisWave} (Active: {activeEnemies.Count}, ToSpawn: {enemiesToSpawn.Count})");
             }
             else if (activeEnemies.Count == 0)

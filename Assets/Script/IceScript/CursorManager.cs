@@ -11,8 +11,8 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        resizedCursor = ResizeTexture(normalCursor, 32, 32); 
-        resizedClickCursor = ResizeTexture(clickCursor, 32, 32);
+        resizedCursor = ResizeTexture(normalCursor, 150, 150); 
+        resizedClickCursor = ResizeTexture(clickCursor, 150, 150);
         SetNormalCursor();
     }
 
