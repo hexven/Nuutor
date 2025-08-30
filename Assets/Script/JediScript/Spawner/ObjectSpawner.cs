@@ -30,7 +30,7 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private bool parentSpawnedUnderThis = true;
     [SerializeField] private float minDistanceBetween = 0f;
     [SerializeField] private int maxPlacementAttempts = 20;
-    [SerializeField] private float spawnPointAvoidRadius = 0.5f; // avoid reusing an occupied spawn point
+    [SerializeField] private float spawnPointOccupancyRadius = 0.2f; // distance to consider a spawn point occupied
 
     private float nextCheckTime;
     private readonly List<GameObject> spawnedObjects = new List<GameObject>();
@@ -123,7 +123,7 @@ public class ObjectSpawner : MonoBehaviour
                     }
 
                     // Do not reuse a spawn point location that is currently occupied
-                    if (IsNearExisting(candidate, spawnPointAvoidRadius))
+                    if (IsSpawnPointOccupied(candidate))
                     {
                         continue;
                     }
@@ -154,7 +154,7 @@ public class ObjectSpawner : MonoBehaviour
                             candidate.y += groundOffsetY;
                         }
                     }
-                    if (IsNearExisting(candidate, spawnPointAvoidRadius))
+                    if (IsSpawnPointOccupied(candidate))
                     {
                         continue;
                     }
@@ -253,13 +253,13 @@ public class ObjectSpawner : MonoBehaviour
         return false;
     }
 
-    private bool IsNearExisting(Vector3 candidate, float radius)
+    private bool IsSpawnPointOccupied(Vector3 candidate)
     {
-        if (radius <= 0f)
+        float r2 = spawnPointOccupancyRadius * spawnPointOccupancyRadius;
+        if (r2 <= 0f)
         {
             return false;
         }
-        float r2 = radius * radius;
         for (int i = 0; i < spawnedObjects.Count; i++)
         {
             GameObject obj = spawnedObjects[i];

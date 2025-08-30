@@ -1403,7 +1403,7 @@ MonoBehaviour:
   randomizePoints: 1
   maxCount: 10
   maintainCount: 1
-  checkIntervalSeconds: 5
+  checkIntervalSeconds: 3
   boxExtents: {x: 50, y: 0, z: 50}
   projectToGround: 1
   raycastHeight: 50
@@ -1414,7 +1414,7 @@ MonoBehaviour:
   parentSpawnedUnderThis: 1
   minDistanceBetween: 0
   maxPlacementAttempts: 20
-  spawnPointAvoidRadius: 0.5
+  spawnPointOccupancyRadius: 0.2
 --- !u!1 &1266428477 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 991372921059066531, guid: ab6289c4f500444e5b97c1d0fbbe6593, type: 3}
