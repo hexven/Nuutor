@@ -537,7 +537,7 @@ MonoBehaviour:
   timelineDirector: {fileID: 793582125}
   sceneStartTimes:
   - 0.5
-  - 3
+  - 4
   nextSceneName: 
 --- !u!1 &1047680922
 GameObject:
