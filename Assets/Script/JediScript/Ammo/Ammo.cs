@@ -4,6 +4,8 @@ public class Ammo : MonoBehaviour
 {
     [Header("Pickup Settings")]
     [SerializeField] private bool destroyOnPickup = true;
+    [SerializeField] private AudioClip pickupClip;
+    [SerializeField] private float pickupVolume = 1f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,8 +22,12 @@ public class Ammo : MonoBehaviour
 
         if (shooter != null)
         {
-            bool reloaded = shooter.TryReload();
-            if (reloaded && destroyOnPickup)
+            shooter.AddReserveAmmo(shooter.DefaultPickupAmount);
+            if (pickupClip != null)
+            {
+                AudioSource.PlayClipAtPoint(pickupClip, transform.position, pickupVolume);
+            }
+            if (destroyOnPickup)
             {
                 Destroy(gameObject);
             }

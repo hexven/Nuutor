@@ -26,6 +26,7 @@ public class Playermovement : MonoBehaviour
     private bool isDashing;
     private float dashTimeRemaining;
     private float cooldownRemaining;
+    private Vector3 dashDirection;
 
     [Header("Crosshair")]
     [SerializeField] private bool showCrosshair = true;
@@ -100,12 +101,24 @@ public class Playermovement : MonoBehaviour
 
         float currentSpeed = moveSpeed;
 
-        // Dash start (E key)
-        if (Input.GetKeyDown(KeyCode.E) && cooldownRemaining <= 0f && !isDashing && inputDirection.sqrMagnitude > 0f)
+        // Dash start (E key) - allow dashing while stationary
+        if (Input.GetKeyDown(KeyCode.E) && cooldownRemaining <= 0f && !isDashing)
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
             cooldownRemaining = dashCooldown;
+            // Capture dash direction: use input if moving, otherwise forward
+            Vector3 desired = inputDirection.sqrMagnitude > 0f ? inputDirection.normalized : Vector3.forward;
+            dashDirection = transform.TransformDirection(desired);
+            dashDirection.y = 0f;
+            if (dashDirection.sqrMagnitude > 0f)
+            {
+                dashDirection.Normalize();
+            }
+            else
+            {
+                dashDirection = transform.forward;
+            }
         }
 
         // Update dash state
@@ -136,6 +149,10 @@ public class Playermovement : MonoBehaviour
         verticalVelocity += gravity * Time.deltaTime;
 
         Vector3 worldMove = transform.TransformDirection(inputDirection) * currentSpeed;
+        if (isDashing)
+        {
+            worldMove = dashDirection * (moveSpeed * dashMultiplier);
+        }
         worldMove.y = verticalVelocity;
         characterController.Move(worldMove * Time.deltaTime);
 

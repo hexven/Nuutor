@@ -36,13 +36,19 @@ public class Shoot : MonoBehaviour
     private float reloadSpinAngle;
     private int reloadSpinDirection = 1; // +1 or -1 from mouse Y
 
+    [Header("Custom Aim Rotation")]
+    [SerializeField] private bool enableAimRotation = false;
+    [SerializeField] private Vector3 aimRotationOffsetEuler = Vector3.zero; // applied after base + reload spin
+
     private float recoilZ;
     private float shakeTimeRemaining;
 
     [Header("Ammo")]
-    [SerializeField] private int magazineSize = 6;
+    [SerializeField] private int magazineSize = 12;
     [SerializeField] private int currentAmmo = 6;
+    [SerializeField] private int reserveAmmo = 6;
     [SerializeField] private TextMeshProUGUI ammoText;
+    [SerializeField] private int pickupAmount = 6;
 
     [Header("Targeting")]
     [SerializeField] private float shootRange = 100f;
@@ -83,6 +89,7 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         currentAmmo = Mathf.Clamp(currentAmmo, 0, magazineSize);
+        reserveAmmo = Mathf.Max(0, reserveAmmo);
         UpdateAmmoUI();
     }
 
@@ -187,6 +194,12 @@ public class Shoot : MonoBehaviour
             targetRotation *= Quaternion.AngleAxis(signedAngle, axis);
         }
 
+        // Optional custom rotation offset for aiming
+        if (enableAimRotation)
+        {
+            targetRotation *= Quaternion.Euler(aimRotationOffsetEuler);
+        }
+
         // Smoothly move and rotate to reduce jitter
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * followLerp);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * followLerp);
@@ -204,6 +217,7 @@ public class Shoot : MonoBehaviour
         }
 
         currentAmmo--;
+        currentAmmo = Mathf.Max(0, currentAmmo);
         UpdateAmmoUI();
 
         // Apply instant kick back (clamped)
@@ -279,11 +293,14 @@ public class Shoot : MonoBehaviour
 
     public bool TryReload()
     {
-        if (currentAmmo == magazineSize)
+        if (currentAmmo == magazineSize || reserveAmmo <= 0)
         {
             return false;
         }
-        currentAmmo = magazineSize;
+        int needed = magazineSize - currentAmmo;
+        int toLoad = Mathf.Min(needed, reserveAmmo);
+        currentAmmo += toLoad;
+        reserveAmmo -= toLoad;
         UpdateAmmoUI();
         if (audioSource != null && reloadClip != null)
         {
@@ -309,7 +326,15 @@ public class Shoot : MonoBehaviour
     {
         if (ammoText != null)
         {
-            ammoText.text = $"{currentAmmo}/{magazineSize}";
+            ammoText.text = $"{currentAmmo}/{reserveAmmo}";
         }
+    }
+
+    public int DefaultPickupAmount => pickupAmount;
+    public void AddReserveAmmo(int amount)
+    {
+        if (amount <= 0) return;
+        reserveAmmo += amount;
+        UpdateAmmoUI();
     }
 }

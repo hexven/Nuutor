@@ -6,6 +6,12 @@ public class ObjectSpawner : MonoBehaviour
     [Header("Spawn Prefab")]
     [SerializeField] private GameObject prefabToSpawn;
 
+    [Header("Spawn Points (Empty Transforms)")]
+    [SerializeField] private bool useSpawnPoints = true;
+    [SerializeField] private bool useChildrenAsPoints = true;
+    [SerializeField] private Transform[] explicitPoints;
+    [SerializeField] private bool randomizePoints = true;
+
     [Header("Limits")]
     [SerializeField] private int maxCount = 10;
     [SerializeField] private bool maintainCount = true;
@@ -24,12 +30,15 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private bool parentSpawnedUnderThis = true;
     [SerializeField] private float minDistanceBetween = 0f;
     [SerializeField] private int maxPlacementAttempts = 20;
+    [SerializeField] private float spawnPointAvoidRadius = 0.5f; // avoid reusing an occupied spawn point
 
     private float nextCheckTime;
     private readonly List<GameObject> spawnedObjects = new List<GameObject>();
+    private readonly List<Transform> spawnPoints = new List<Transform>();
 
     void Start()
     {
+        CollectSpawnPoints();
         FillToMax();
         nextCheckTime = Time.time + checkIntervalSeconds;
     }
@@ -89,6 +98,77 @@ public class ObjectSpawner : MonoBehaviour
 
     private bool TryGetSpawnPosition(out Vector3 position, out Quaternion rotation)
     {
+        // Prefer spawn points if enabled and available
+        if (useSpawnPoints && spawnPoints.Count > 0)
+        {
+            int count = spawnPoints.Count;
+            if (randomizePoints)
+            {
+                int startIdx = Random.Range(0, count);
+                for (int n = 0; n < count; n++)
+                {
+                    int idx = (startIdx + n) % count;
+                    Transform p = spawnPoints[idx];
+                    if (p == null) continue;
+
+                    Vector3 candidate = p.position;
+                    if (projectToGround)
+                    {
+                        Vector3 rayStart = new Vector3(candidate.x, candidate.y + Mathf.Abs(raycastHeight), candidate.z);
+                        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Abs(raycastHeight) * 2f, groundLayers))
+                        {
+                            candidate = hit.point;
+                            candidate.y += groundOffsetY;
+                        }
+                    }
+
+                    // Do not reuse a spawn point location that is currently occupied
+                    if (IsNearExisting(candidate, spawnPointAvoidRadius))
+                    {
+                        continue;
+                    }
+
+                    if (IsOccupied(candidate))
+                    {
+                        continue;
+                    }
+
+                    position = candidate;
+                    rotation = p.rotation;
+                    return true;
+                }
+            }
+            else
+            {
+                for (int idx = 0; idx < count; idx++)
+                {
+                    Transform p = spawnPoints[idx];
+                    if (p == null) continue;
+                    Vector3 candidate = p.position;
+                    if (projectToGround)
+                    {
+                        Vector3 rayStart = new Vector3(candidate.x, candidate.y + Mathf.Abs(raycastHeight), candidate.z);
+                        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Abs(raycastHeight) * 2f, groundLayers))
+                        {
+                            candidate = hit.point;
+                            candidate.y += groundOffsetY;
+                        }
+                    }
+                    if (IsNearExisting(candidate, spawnPointAvoidRadius))
+                    {
+                        continue;
+                    }
+                    if (IsOccupied(candidate))
+                    {
+                        continue;
+                    }
+                    position = candidate;
+                    rotation = p.rotation;
+                    return true;
+                }
+            }
+        }
+
         for (int attempt = 0; attempt < Mathf.Max(1, maxPlacementAttempts); attempt++)
         {
             Vector3 randomLocal = new Vector3(
@@ -112,23 +192,9 @@ public class ObjectSpawner : MonoBehaviour
                 }
             }
 
-            if (minDistanceBetween > 0f)
+            if (IsOccupied(candidate))
             {
-                bool tooClose = false;
-                for (int i = 0; i < spawnedObjects.Count; i++)
-                {
-                    GameObject obj = spawnedObjects[i];
-                    if (obj == null) continue;
-                    if ((obj.transform.position - candidate).sqrMagnitude < (minDistanceBetween * minDistanceBetween))
-                    {
-                        tooClose = true;
-                        break;
-                    }
-                }
-                if (tooClose)
-                {
-                    continue;
-                }
+                continue;
             }
 
             position = candidate;
@@ -138,6 +204,71 @@ public class ObjectSpawner : MonoBehaviour
 
         position = Vector3.zero;
         rotation = Quaternion.identity;
+        return false;
+    }
+
+    private void CollectSpawnPoints()
+    {
+        spawnPoints.Clear();
+        if (useChildrenAsPoints)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Transform child = transform.GetChild(i);
+                if (child != null)
+                {
+                    spawnPoints.Add(child);
+                }
+            }
+        }
+        if (explicitPoints != null && explicitPoints.Length > 0)
+        {
+            for (int i = 0; i < explicitPoints.Length; i++)
+            {
+                Transform t = explicitPoints[i];
+                if (t != null && !spawnPoints.Contains(t))
+                {
+                    spawnPoints.Add(t);
+                }
+            }
+        }
+    }
+
+    private bool IsOccupied(Vector3 candidate)
+    {
+        if (minDistanceBetween <= 0f)
+        {
+            return false;
+        }
+        float minDistSqr = minDistanceBetween * minDistanceBetween;
+        for (int i = 0; i < spawnedObjects.Count; i++)
+        {
+            GameObject obj = spawnedObjects[i];
+            if (obj == null) continue;
+            if ((obj.transform.position - candidate).sqrMagnitude < minDistSqr)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsNearExisting(Vector3 candidate, float radius)
+    {
+        if (radius <= 0f)
+        {
+            return false;
+        }
+        float r2 = radius * radius;
+        for (int i = 0; i < spawnedObjects.Count; i++)
+        {
+            GameObject obj = spawnedObjects[i];
+            if (obj == null) continue;
+            if ((obj.transform.position - candidate).sqrMagnitude < r2)
+            {
+                return true;
+            }
+        }
         return false;
     }
 }
