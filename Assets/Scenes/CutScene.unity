@@ -335,8 +335,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 29, y: -67}
+  m_SizeDelta: {x: 305.676, y: 171.9429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &450610878
 Animator:
@@ -1247,8 +1247,6 @@ PlayableDirector:
     value: {fileID: 2025828588}
   - key: {fileID: -2668328622065695355, guid: b9c379019a48c3343b78babe4aee0d90, type: 2}
     value: {fileID: 450610878}
-  - key: {fileID: 4832683797728075358, guid: b9c379019a48c3343b78babe4aee0d90, type: 2}
-    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1988638093
@@ -1265,11 +1263,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timelineDirector: {fileID: 1988638092}
   sceneStartTimes:
-  - 1.2
-  - 6.5
-  - 10
+  - 1
+  - 6
+  - 9
   - 14
-  - 17
+  - 17.5
   nextSceneName: MainScene
 --- !u!1 &2025828586
 GameObject:
@@ -1377,3 +1375,4 @@ SceneRoots:
   - {fileID: 1988638091}
   - {fileID: 1864919652}
   - {fileID: 967069305}
+  - {fileID: 255233687}

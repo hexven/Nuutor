@@ -537,8 +537,8 @@ MonoBehaviour:
   timelineDirector: {fileID: 793582125}
   sceneStartTimes:
   - 0.5
-  - 4
-  nextSceneName: 
+  - 3.5
+  nextSceneName: MainMenu
 --- !u!1 &1047680922
 GameObject:
   m_ObjectHideFlags: 0
