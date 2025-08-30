@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 639677777171079121}
   - component: {fileID: 29758496227117892}
   - component: {fileID: 8929669566516933641}
+  - component: {fileID: -8692673281701289308}
+  - component: {fileID: 5320425115932435706}
   m_Layer: 0
   m_Name: frogred
   m_TagString: Untagged
@@ -30,8 +32,8 @@ Transform:
   m_GameObject: {fileID: 1650142800734923271}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.468266, y: 0, z: -22.283543}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.76, y: 1.76, z: 1.76}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -179,6 +181,8 @@ MonoBehaviour:
   randomizePitch: 0
   minPitch: 0.95
   maxPitch: 1.05
+  animator: {fileID: 0}
+  attackTriggerName: Attack
 --- !u!95 &8929669566516933641
 Animator:
   serializedVersion: 7
@@ -201,3 +205,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8692673281701289308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650142800734923271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2cb8f68bfd4345dc9e86dfd1f91f2bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpHeight: 5
+  jumpSpeed: 7
+  waitTime: 0.5
+  jumpStepDistance: 3
+  groundLevel: 0
+--- !u!114 &5320425115932435706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650142800734923271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1120645c1436d4911b43fe245fad945f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  useMainCameraIfTargetNull: 1
+  rotateOnlyAroundY: 1
+  invertFacing: 0
+  rotateLerpSpeed: 0
