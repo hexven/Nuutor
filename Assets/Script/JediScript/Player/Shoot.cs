@@ -32,7 +32,6 @@ public class Shoot : MonoBehaviour
     [SerializeField] private float reloadVolume = 1f;
     [SerializeField] private float reloadSpinDuration = 0.25f; // seconds
     [SerializeField] private int reloadSpinRevolutions = 1;    // 1 = 360°
-    [SerializeField] private bool spinTowardAim = true;        // tilt toward aim instead of side roll
     private float reloadSpinTimeRemaining;
     private float reloadSpinAngle;
     private int reloadSpinDirection = 1; // +1 or -1 from mouse Y
@@ -175,22 +174,12 @@ public class Shoot : MonoBehaviour
         // Target pose relative to camera (so the gun stays aligned with the crosshair)
         Vector3 targetPosition = cameraTransform.TransformPoint(localPositionOffset + recoilLocalOffset + shakeLocalOffset);
         Quaternion targetRotation = cameraTransform.rotation * Quaternion.Euler(localEulerOffset);
-        if (reloadSpinAngle != 0f)
+        if (reloadSpinAngle != 0f && cameraTransform != null)
         {
-            // Spin around camera-aligned axis during reload animation
-            float signedAngle = reloadSpinAngle;
-            if (spinTowardAim && cameraTransform != null)
-            {
-                // Use camera right axis to tilt forward/back towards aim
-                Vector3 axis = cameraTransform.right;
-                signedAngle *= reloadSpinDirection;
-                targetRotation *= Quaternion.AngleAxis(signedAngle, axis);
-            }
-            else
-            {
-                // Default: roll around forward
-                targetRotation *= Quaternion.AngleAxis(signedAngle, Vector3.forward);
-            }
+            // Always tilt toward aim: rotate around camera's right axis
+            float signedAngle = reloadSpinAngle * reloadSpinDirection;
+            Vector3 axis = cameraTransform.right;
+            targetRotation *= Quaternion.AngleAxis(signedAngle, axis);
         }
 
         // Smoothly move and rotate to reduce jitter
