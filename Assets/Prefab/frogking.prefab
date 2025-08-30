@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2033634129072600159}
   - component: {fileID: 4608047608503512652}
   - component: {fileID: 8595273779938463756}
+  - component: {fileID: 4963854445825902793}
   m_Layer: 0
   m_Name: frogking
   m_TagString: Untagged
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 602842911, guid: 685f7dffa2489f841a4f9e64b46749f0, type: 3}
+  m_Sprite: {fileID: -1238884219, guid: 55e937fb00ca0824db091e0d3dae0dcd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,7 +154,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.09375}
+    oldSize: {x: 1, y: 1.15625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -191,3 +192,25 @@ MonoBehaviour:
   rotateOnlyAroundY: 1
   invertFacing: 0
   rotateLerpSpeed: 0
+--- !u!95 &4963854445825902793
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451812924138272321}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 343b4e2b6ba457e42b2f39873389b8d7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
