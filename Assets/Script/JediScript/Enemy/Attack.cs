@@ -3,7 +3,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [Header("Target")]
-    [SerializeField] private Transform target; // assign player transform; if null tries Camera.main
+    [SerializeField] private Transform target; // assign player transform; if null tries to find by tag
 
     [Header("Attack Settings")]
     [SerializeField] private float range = 2.0f;
@@ -25,9 +25,17 @@ public class Attack : MonoBehaviour
 
     void Awake()
     {
-        if (target == null && Camera.main != null)
+        if (target == null)
         {
-            target = Camera.main.transform;
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                target = player.transform;
+            }
+            else
+            {
+                Debug.LogWarning("No GameObject with tag 'Player' found in the scene.");
+            }
         }
 
         if (audioSource == null)
