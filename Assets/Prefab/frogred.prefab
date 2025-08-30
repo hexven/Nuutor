@@ -219,9 +219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 5
-  jumpSpeed: 7
+  jumpSpeed: 6
   waitTime: 0.5
-  jumpStepDistance: 3
+  jumpStepDistance: 2
   groundLevel: 0
 --- !u!114 &5320425115932435706
 MonoBehaviour:
