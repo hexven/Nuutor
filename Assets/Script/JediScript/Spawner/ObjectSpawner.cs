@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class AmmoSpawner : MonoBehaviour
+public class ObjectSpawner : MonoBehaviour
 {
     [Header("Spawn Prefab")]
     [SerializeField] private GameObject prefabToSpawn;
@@ -18,6 +18,7 @@ public class AmmoSpawner : MonoBehaviour
     [SerializeField] private bool projectToGround = true;
     [SerializeField] private float raycastHeight = 50f;
     [SerializeField] private LayerMask groundLayers = ~0;
+    [SerializeField] private float groundOffsetY = 0.2f; // raise a bit above the ground
 
     [Header("Parenting & Spacing")]
     [SerializeField] private bool parentSpawnedUnderThis = true;
@@ -35,7 +36,7 @@ public class AmmoSpawner : MonoBehaviour
 
     void Update()
     {
-        if (!maintainCount)
+        if (!maintainCount || prefabToSpawn == null || maxCount <= 0)
         {
             return;
         }
@@ -55,8 +56,8 @@ public class AmmoSpawner : MonoBehaviour
             return;
         }
 
-        int alive = GetAliveCount();
-        int toSpawn = Mathf.Clamp(maxCount - alive, 0, maxCount);
+        CleanupList();
+        int toSpawn = Mathf.Clamp(maxCount - spawnedObjects.Count, 0, maxCount);
         for (int i = 0; i < toSpawn; i++)
         {
             if (TryGetSpawnPosition(out Vector3 spawnPos, out Quaternion spawnRot))
@@ -70,16 +71,9 @@ public class AmmoSpawner : MonoBehaviour
             }
             else
             {
-                // Could not find a good position within attempts; stop trying this frame
                 break;
             }
         }
-    }
-
-    private int GetAliveCount()
-    {
-        CleanupList();
-        return spawnedObjects.Count;
     }
 
     private void CleanupList()
@@ -107,14 +101,14 @@ public class AmmoSpawner : MonoBehaviour
             if (projectToGround)
             {
                 Vector3 rayStart = new Vector3(candidate.x, candidate.y + Mathf.Abs(raycastHeight), candidate.z);
-                Vector3 rayEnd = new Vector3(candidate.x, candidate.y - Mathf.Abs(raycastHeight), candidate.z);
                 if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Abs(raycastHeight) * 2f, groundLayers))
                 {
                     candidate = hit.point;
+                    candidate.y += groundOffsetY;
                 }
                 else
                 {
-                    continue; // failed to find ground here
+                    continue;
                 }
             }
 
@@ -148,4 +142,4 @@ public class AmmoSpawner : MonoBehaviour
     }
 }
 
-
+ 
