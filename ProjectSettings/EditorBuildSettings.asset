@@ -5,12 +5,27 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
     path: Assets/Scenes/JediScene.unity
     guid: 14c792b5ce54f45c0a05495167dae537
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ab48f496c143e43e892e7132b62d13d3
+  - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: 7882f5d3b4d89ab4d870f7b0518f7215
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 81835ed5a61a0480f96cec94ba26d3c9
+  - enabled: 1
+    path: Assets/Scenes/GoodEnd.unity
+    guid: ea791553e6c89084fa6bf55cfe630b97
+  - enabled: 1
+    path: Assets/Scenes/BadEnd.unity
+    guid: ae353bfbad238fe4fb26d646dc2cadd2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
