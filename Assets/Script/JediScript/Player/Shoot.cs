@@ -27,6 +27,15 @@ public class Shoot : MonoBehaviour
     [SerializeField] private float fireCooldown = 1f;
     private float nextFireTime;
 
+    [Header("Reload FX")]
+    [SerializeField] private AudioClip reloadClip;
+    [SerializeField] private float reloadVolume = 1f;
+    [SerializeField] private float reloadSpinDuration = 0.25f; // seconds
+    [SerializeField] private int reloadSpinRevolutions = 1;    // 1 = 360°
+    private float reloadSpinTimeRemaining;
+    private float reloadSpinAngle;
+    private int reloadSpinDirection = 1; // +1 or -1 from mouse Y
+
     private float recoilZ;
     private float shakeTimeRemaining;
 
@@ -89,6 +98,18 @@ public class Shoot : MonoBehaviour
         if (shakeTimeRemaining > 0f)
         {
             shakeTimeRemaining -= Time.deltaTime;
+        }
+
+        // Update reload spin progress
+        if (reloadSpinTimeRemaining > 0f)
+        {
+            reloadSpinTimeRemaining -= Time.deltaTime;
+            float progress = 1f - Mathf.Clamp01(reloadSpinTimeRemaining / Mathf.Max(0.0001f, reloadSpinDuration));
+            reloadSpinAngle = progress * (reloadSpinRevolutions * 360f);
+            if (reloadSpinTimeRemaining <= 0f)
+            {
+                reloadSpinAngle = 0f;
+            }
         }
     }
 
@@ -153,6 +174,13 @@ public class Shoot : MonoBehaviour
         // Target pose relative to camera (so the gun stays aligned with the crosshair)
         Vector3 targetPosition = cameraTransform.TransformPoint(localPositionOffset + recoilLocalOffset + shakeLocalOffset);
         Quaternion targetRotation = cameraTransform.rotation * Quaternion.Euler(localEulerOffset);
+        if (reloadSpinAngle != 0f && cameraTransform != null)
+        {
+            // Always tilt toward aim: rotate around camera's right axis
+            float signedAngle = reloadSpinAngle * reloadSpinDirection;
+            Vector3 axis = cameraTransform.right;
+            targetRotation *= Quaternion.AngleAxis(signedAngle, axis);
+        }
 
         // Smoothly move and rotate to reduce jitter
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * followLerp);
@@ -240,6 +268,23 @@ public class Shoot : MonoBehaviour
         }
         currentAmmo = magazineSize;
         UpdateAmmoUI();
+        if (audioSource != null && reloadClip != null)
+        {
+            audioSource.PlayOneShot(reloadClip, reloadVolume);
+        }
+        reloadSpinTimeRemaining = reloadSpinDuration;
+        reloadSpinAngle = 0f;
+        // Determine spin direction from aim vertical movement
+        float mouseY = Input.GetAxis("Mouse Y");
+        if (mouseY > 0.001f)
+        {
+            reloadSpinDirection = 1;
+        }
+        else if (mouseY < -0.001f)
+        {
+            reloadSpinDirection = -1;
+        }
+        // if ~0, keep previous direction
         return true;
     }
 

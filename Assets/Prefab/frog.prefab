@@ -104,6 +104,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1aba1348eae94e538fa064920fb030a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathClips:
+  - {fileID: 8300000, guid: a8ee5a10c3bbd470d94afa26419c6e0f, type: 3}
+  - {fileID: 8300000, guid: d944e9cb6143c4a988616ee9863f6edd, type: 3}
+  - {fileID: 8300000, guid: 628d28257220d492fa67c9bd57bb41ba, type: 3}
+  - {fileID: 8300000, guid: 18e231e17244240d08dc7a3ac5a6bd45, type: 3}
+  volume: 1
+  randomizePitch: 1
+  minPitch: 0.95
+  maxPitch: 1.05
+  spatialBlend: 1
+  minDistance: 1
+  maxDistance: 25
 --- !u!61 &2692500505416599250
 BoxCollider2D:
   m_ObjectHideFlags: 0
