@@ -93,6 +93,11 @@ public class Shoot : MonoBehaviour
             Fire();
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TryReload();
+        }
+
         // Smoothly return recoil to neutral
         recoilZ = Mathf.Lerp(recoilZ, 0f, Time.deltaTime * recoilReturnSpeed);
         if (shakeTimeRemaining > 0f)
@@ -232,25 +237,37 @@ public class Shoot : MonoBehaviour
                 }
             }
 
-            // 2D hit (supports SpriteRenderer with 2D colliders)
+            // 2D hit (supports stacked SpriteRenderers with 2D colliders)
             Camera cam = cameraComponent != null ? cameraComponent : Camera.main;
             if (cam != null)
             {
                 Ray ray2D = cam.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f));
-                RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray2D, shootRange);
-                if (hit2D.collider != null)
+                RaycastHit2D[] hits2D = Physics2D.GetRayIntersectionAll(ray2D, shootRange);
+                if (hits2D != null && hits2D.Length > 0)
                 {
-                    Target target2D = hit2D.collider.GetComponentInParent<Target>();
-                    if (target2D != null)
+                    // Iterate nearest first
+                    System.Array.Sort(hits2D, (a, b) => a.distance.CompareTo(b.distance));
+                    for (int i = 0; i < hits2D.Length; i++)
                     {
-                        Destroy(target2D.gameObject);
-                        return;
-                    }
+                        Collider2D col = hits2D[i].collider;
+                        if (col == null) continue;
 
-                    SpriteRenderer sr2D = hit2D.collider.GetComponentInParent<SpriteRenderer>();
-                    if (sr2D != null)
-                    {
-                        Destroy(sr2D.gameObject);
+                        Target target2D = col.GetComponentInParent<Target>();
+                        if (target2D != null)
+                        {
+                            Destroy(target2D.gameObject);
+                            return;
+                        }
+
+                        SpriteRenderer sr2D = col.GetComponentInParent<SpriteRenderer>();
+                        if (sr2D != null)
+                        {
+                            Destroy(sr2D.gameObject);
+                            return;
+                        }
+
+                        // Fallback: destroy the collider's GameObject if no SpriteRenderer is found
+                        Destroy(col.gameObject);
                         return;
                     }
                 }
