@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI; // Required for UI Text and CanvasGroup
+using TMPro; // Required for TextMeshProUGUI
 using System.Collections; // Required for coroutines
+using UnityEngine.SceneManagement;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -15,9 +16,9 @@ public class WaveSpawner : MonoBehaviour
     public List<Transform> spawnLocations = new List<Transform>(); // List of spawn locations
     public Transform player; // Reference to the player's Transform
     public int waveDuration = 10;
-    public Text waveText; // Reference to UI Text for wave display
+    public TextMeshProUGUI waveText; // Reference to TextMeshProUGUI for wave display
     public CanvasGroup waveTextCanvasGroup; // CanvasGroup for fading wave text
-    public Text enemyCountText; // Reference to UI Text for enemy count display
+    public TextMeshProUGUI enemyCountText; // Reference to TextMeshProUGUI for enemy count display
     public bool facePlayerOnSpawn = true; // Option to face player on spawn
     public Vector3 customFacingDirection = Vector3.right; // Custom direction if not facing player
     public float fadeDuration = 2f; // Duration of fade-out animation in seconds
@@ -33,6 +34,9 @@ public class WaveSpawner : MonoBehaviour
     void Start()
     {
         GenerateWave();
+        // Hide cursor if this is the specified scene
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
