@@ -9,6 +9,8 @@ public class CursorManager : MonoBehaviour
     private Texture2D resizedCursor;
     private Texture2D resizedClickCursor;
 
+    public AudioSource clickSound;
+
     void Start()
     {
         resizedCursor = ResizeTexture(normalCursor, 150, 150); 
@@ -22,6 +24,11 @@ public class CursorManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             SetClickCursor();
+            if (clickSound != null)
+            {
+                clickSound.Stop(); 
+                clickSound.Play();
+            }
         }
         // Check if both mouse buttons are released
         if ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || 

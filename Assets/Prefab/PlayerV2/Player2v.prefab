@@ -1039,6 +1039,9 @@ MonoBehaviour:
   movementInputThreshold: 0.1
   healthText: {fileID: 4448961912602339673}
   healthSlider: {fileID: 3840936316861614298}
+  deathSceneName: BadEnd
+  deathClip: {fileID: 0}
+  deathVolume: 1
 --- !u!1001 &4543231644858293174
 PrefabInstance:
   m_ObjectHideFlags: 0
