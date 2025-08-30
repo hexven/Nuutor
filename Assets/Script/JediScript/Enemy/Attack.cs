@@ -18,6 +18,10 @@ public class Attack : MonoBehaviour
     [SerializeField] private float minPitch = 0.95f;
     [SerializeField] private float maxPitch = 1.05f;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator; // อ้างอิง Animator Component
+    [SerializeField] private string attackTriggerName = "Attack"; // ชื่อ Trigger Parameter ใน Animator
+
     private float nextAttackTime;
 
     void Awake()
@@ -36,6 +40,12 @@ public class Attack : MonoBehaviour
                 audioSource.playOnAwake = false;
                 audioSource.spatialBlend = 1f;
             }
+        }
+
+        // Auto-assign Animator if not set
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
         }
     }
 
@@ -66,6 +76,7 @@ public class Attack : MonoBehaviour
         {
             health.ApplyDamage(damagePerHit, transform.position);
             PlayAttackSound();
+            PlayAttackAnimation(); // เพิ่มการเรียกใช้ animation
         }
     }
 
@@ -87,5 +98,14 @@ public class Attack : MonoBehaviour
         }
         audioSource.PlayOneShot(clip, attackVolume);
         audioSource.pitch = originalPitch;
+    }
+
+    // เพิ่มฟังก์ชันใหม่สำหรับเล่น animation
+    private void PlayAttackAnimation()
+    {
+        if (animator != null && !string.IsNullOrEmpty(attackTriggerName))
+        {
+            animator.SetTrigger(attackTriggerName);
+        }
     }
 }

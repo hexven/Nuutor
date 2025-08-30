@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 3077543762036925011}
   - component: {fileID: 4832020286742044023}
   - component: {fileID: 360961760505836166}
+  - component: {fileID: 3658289498878871914}
   - component: {fileID: 4399589475206172578}
   - component: {fileID: 5009195855961571363}
   - component: {fileID: 1903031564153961199}
-  - component: {fileID: 2110020288408806423}
+  - component: {fileID: 3119436729359263388}
   m_Layer: 0
   m_Name: frogblue
   m_TagString: Untagged
@@ -116,6 +117,28 @@ MonoBehaviour:
   spatialBlend: 1
   minDistance: 1
   maxDistance: 25
+--- !u!114 &3658289498878871914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7875180280746422240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2cd7ebc7b7a242b6bae37723c2c6d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 95319112137673299, guid: c4a2116c63336435e8072cdc44461e3a, type: 3}
+  range: 5
+  cooldownSeconds: 1
+  damagePerHit: 10
+  audioSource: {fileID: 0}
+  attackClips: []
+  attackVolume: 1
+  randomizePitch: 0
+  minPitch: 0.95
+  maxPitch: 1.05
 --- !u!61 &4399589475206172578
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -192,7 +215,7 @@ MonoBehaviour:
   rotateOnlyAroundY: 1
   invertFacing: 0
   rotateLerpSpeed: 0
---- !u!95 &2110020288408806423
+--- !u!95 &3119436729359263388
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -202,7 +225,7 @@ Animator:
   m_GameObject: {fileID: 7875180280746422240}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2523068cb847c034f9f03784616a35bd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7b1172d3b2501a64cab907a696f42236, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

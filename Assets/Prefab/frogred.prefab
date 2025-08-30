@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9025844454539921672}
   - component: {fileID: 4537038955927019816}
   - component: {fileID: 639677777171079121}
+  - component: {fileID: 29758496227117892}
   - component: {fileID: 8929669566516933641}
   m_Layer: 0
   m_Name: frogred
@@ -156,6 +157,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.09375}
   m_EdgeRadius: 0
+--- !u!114 &29758496227117892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650142800734923271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2cd7ebc7b7a242b6bae37723c2c6d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 95319112137673299, guid: c4a2116c63336435e8072cdc44461e3a, type: 3}
+  range: 5
+  cooldownSeconds: 1
+  damagePerHit: 10
+  audioSource: {fileID: 0}
+  attackClips: []
+  attackVolume: 1
+  randomizePitch: 0
+  minPitch: 0.95
+  maxPitch: 1.05
 --- !u!95 &8929669566516933641
 Animator:
   serializedVersion: 7
