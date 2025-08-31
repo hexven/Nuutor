@@ -19564,7 +19564,7 @@ PrefabInstance:
       objectReference: {fileID: 1655068012}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: waveDuration
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: enemyCountText
