@@ -3998,7 +3998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d69502d89e7a4d1fa2794aba490e7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToSpawn: {fileID: 0}
+  prefabToSpawn: {fileID: 8480181065457219340, guid: c8aa81e8c3d964a29b9fff5f3efb8e11, type: 3}
   useSpawnPoints: 1
   useChildrenAsPoints: 1
   explicitPoints:
