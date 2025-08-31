@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1aba1348eae94e538fa064920fb030a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotsToDestroy: 1
   deathClips:
   - {fileID: 8300000, guid: a8ee5a10c3bbd470d94afa26419c6e0f, type: 3}
   - {fileID: 8300000, guid: 628d28257220d492fa67c9bd57bb41ba, type: 3}
@@ -131,13 +132,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   range: 5
-  cooldownSeconds: 1
+  cooldownSeconds: 3
   damagePerHit: 10
   pushForce: 20
   pushUpward: 5
   pushDuration: 0.45
   audioSource: {fileID: 0}
-  attackClips: []
+  attackClips:
+  - {fileID: 8300000, guid: 34bef8d142b314b6285ac912aac833ef, type: 3}
   attackVolume: 1
   randomizePitch: 0
   minPitch: 0.95
