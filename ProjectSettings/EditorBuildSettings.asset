@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BadEnd.unity
     guid: ae353bfbad238fe4fb26d646dc2cadd2
+  - enabled: 1
+    path: Assets/Scenes/MmeScene2.unity
+    guid: a21c9b77f494812429a35742779781ff
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
