@@ -54,6 +54,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] private float shootRange = 100f;
     [SerializeField] private LayerMask shootLayers3D = ~0;
     [SerializeField] private LayerMask shootLayers2D = ~0;
+    [SerializeField] private bool includeTriggerColliders3D = true;
+    [SerializeField] private float hitSphereRadius = 0.1f;
 
     private Transform ownerRoot;
 
@@ -238,7 +240,8 @@ public class Shoot : MonoBehaviour
         {
             // 3D hits (nearest-first), skip self, allow hitting through non-target colliders
             Ray ray3D = new Ray(cameraTransform.position, cameraTransform.forward);
-            RaycastHit[] hits3D = Physics.RaycastAll(ray3D, shootRange, shootLayers3D, QueryTriggerInteraction.Ignore);
+            var qti = includeTriggerColliders3D ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
+            RaycastHit[] hits3D = Physics.RaycastAll(ray3D, shootRange, shootLayers3D, qti);
             if (hits3D != null && hits3D.Length > 0)
             {
                 System.Array.Sort(hits3D, (a, b) => a.distance.CompareTo(b.distance));
@@ -260,6 +263,35 @@ public class Shoot : MonoBehaviour
                     {
                         Destroy(sr3D.gameObject);
                         return;
+                    }
+                }
+            }
+            else if (hitSphereRadius > 0f)
+            {
+                // Fallback: small sphere cast to be forgiving during fast turns
+                RaycastHit[] sphereHits = Physics.SphereCastAll(ray3D, hitSphereRadius, shootRange, shootLayers3D, qti);
+                if (sphereHits != null && sphereHits.Length > 0)
+                {
+                    System.Array.Sort(sphereHits, (a, b) => a.distance.CompareTo(b.distance));
+                    for (int i = 0; i < sphereHits.Length; i++)
+                    {
+                        Collider col3D = sphereHits[i].collider;
+                        if (col3D == null) continue;
+                        if (col3D.transform.root == ownerRoot) continue;
+
+                        Target target3D = col3D.GetComponentInParent<Target>();
+                        if (target3D != null)
+                        {
+                            Destroy(target3D.gameObject);
+                            return;
+                        }
+
+                        SpriteRenderer sr3D = col3D.GetComponentInParent<SpriteRenderer>();
+                        if (sr3D != null)
+                        {
+                            Destroy(sr3D.gameObject);
+                            return;
+                        }
                     }
                 }
             }
@@ -297,6 +329,40 @@ public class Shoot : MonoBehaviour
                         // Fallback: destroy the collider's GameObject if no SpriteRenderer is found
                         Destroy(col.gameObject);
                         return;
+                    }
+                }
+                else if (hitSphereRadius > 0f)
+                {
+                    // 2D fallback: small circle cast along the ray
+                    Vector3 origin = ray2D.origin;
+                    Vector3 dir = ray2D.direction.normalized;
+                    RaycastHit2D[] circleHits = Physics2D.CircleCastAll(origin, hitSphereRadius, dir, shootRange, shootLayers2D);
+                    if (circleHits != null && circleHits.Length > 0)
+                    {
+                        System.Array.Sort(circleHits, (a, b) => a.distance.CompareTo(b.distance));
+                        for (int i = 0; i < circleHits.Length; i++)
+                        {
+                            Collider2D col = circleHits[i].collider;
+                            if (col == null) continue;
+                            if (col.transform.root == ownerRoot) continue;
+
+                            Target target2D = col.GetComponentInParent<Target>();
+                            if (target2D != null)
+                            {
+                                Destroy(target2D.gameObject);
+                                return;
+                            }
+
+                            SpriteRenderer sr2D = col.GetComponentInParent<SpriteRenderer>();
+                            if (sr2D != null)
+                            {
+                                Destroy(sr2D.gameObject);
+                                return;
+                            }
+
+                            Destroy(col.gameObject);
+                            return;
+                        }
                     }
                 }
             }
