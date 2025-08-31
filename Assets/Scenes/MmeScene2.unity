@@ -19582,7 +19582,7 @@ PrefabInstance:
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: waveEnemyConfigs.Array.data[0].allowedEnemies.Array.data[0].enemyPrefab
       value: 
-      objectReference: {fileID: 1451812924138272321, guid: 4d3fb6e4eee209547acc7ebb50bf0e56, type: 3}
+      objectReference: {fileID: 991372921059066531, guid: ab6289c4f500444e5b97c1d0fbbe6593, type: 3}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: waveEnemyConfigs.Array.data[1].allowedEnemies.Array.data[0].enemyPrefab
       value: 
