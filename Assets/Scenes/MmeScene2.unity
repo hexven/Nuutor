@@ -15127,6 +15127,10 @@ PrefabInstance:
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2502378392050301326, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+      propertyPath: dashClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 96827c87be2ed46c8954734f52b9320b, type: 3}
     - target: {fileID: 2881832412945503262, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 467.24
@@ -19521,15 +19525,15 @@ PrefabInstance:
       objectReference: {fileID: 1988891326}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'maxEnemiesPerWave.Array.data[0]'
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'maxEnemiesPerWave.Array.data[1]'
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'maxEnemiesPerWave.Array.data[2]'
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'maxEnemiesPerWave.Array.data[3]'
