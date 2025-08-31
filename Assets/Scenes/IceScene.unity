@@ -1295,7 +1295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacdeea772bd3472c9a81ce7c96cac34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: IceScene
 --- !u!4 &1461403934
 Transform:
   m_ObjectHideFlags: 0
@@ -1670,6 +1669,18 @@ PrefabInstance:
     - target: {fileID: 2881832412945503262, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979119404787431221, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+      propertyPath: m_margin.z
+      value: -34.921158
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643101808822797164, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 372.5161
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643101808822797164, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -708.18195
       objectReference: {fileID: 0}
     - target: {fileID: 9034264325331083941, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
       propertyPath: m_AnchorMax.x
