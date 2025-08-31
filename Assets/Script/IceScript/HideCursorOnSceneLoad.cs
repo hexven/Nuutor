@@ -3,16 +3,41 @@ using UnityEngine.SceneManagement;
 
 public class HideCursorOnSceneLoad : MonoBehaviour
 {
-    [SerializeField] private string sceneName = "YourSceneName"; // Set this in the Inspector
-
-    void Start()
+    void Awake()
     {
-        // Check if the current scene matches the specified scene
-        if (SceneManager.GetActiveScene().name == sceneName)
+        // Ensure only one instance exists to avoid duplicates across scenes
+        HideCursorOnSceneLoad[] managers = FindObjectsOfType<HideCursorOnSceneLoad>();
+        if (managers.Length > 1)
         {
-            // Hide the cursor and lock it
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            Destroy(gameObject);
+            return;
         }
+
+        DontDestroyOnLoad(gameObject); // Persist across scenes
+    }
+
+    void zeros()
+    {
+        // Ensure cursor is visible and unlocked in all scenes
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    // Listen to scene changes to ensure cursor remains visible
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Ensure cursor is visible and unlocked when any scene loads
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }
