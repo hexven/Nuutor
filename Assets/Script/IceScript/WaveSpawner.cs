@@ -6,9 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public List<Enemy> enemies = new List<Enemy>(); // Initialize the list
+    [System.Serializable]
+    public class WaveEnemyConfig
+    {
+        public List<Enemy> allowedEnemies = new List<Enemy>(); // Enemies allowed to spawn in this wave
+    }
+
+    public List<WaveEnemyConfig> waveEnemyConfigs = new List<WaveEnemyConfig>(); // Per-wave enemy configurations
     public int currentWave = 1; // Start at Wave 1
     public int maxWaves = 5; // Maximum number of waves in the game
+    [Tooltip("Name of the scene to load after completing all waves. Must match a scene in Build Settings.")]
+    public string victorySceneName = "GoodEnd"; // Scene to load after completing all waves
     public int waveValue;
     public List<int> maxEnemiesPerWave = new List<int> { 10, 15, 20, 25, 30 }; // Per-wave enemy limits
     public List<GameObject> enemiesToSpawn = new List<GameObject>();
@@ -22,11 +30,11 @@ public class WaveSpawner : MonoBehaviour
     public bool facePlayerOnSpawn = true; // Option to face player on spawn
     public Vector3 customFacingDirection = Vector3.right; // Custom direction if not facing player
     public float fadeDuration = 2f; // Duration of fade-out animation in seconds
-    public float spawnRadius = 1f; // NEW: Minimum distance between spawned enemies
-    public float maxSpawnOffset = 0.5f; // NEW: Maximum offset to try if spawn position is occupied
+    public float spawnRadius = 1f; // Minimum distance between spawned enemies
+    public float maxSpawnOffset = 0.5f; // Maximum offset to try if spawn position is occupied
     private float waveTimer;
-    private float spawnInterval;
     private float spawnTimer;
+    private float spawnInterval; // Added to store spawn interval
     private int maxEnemiesThisWave; // Track max enemies for the current wave
     private int destroyedEnemies; // Track number of enemies destroyed in the current wave
 
@@ -52,6 +60,8 @@ public class WaveSpawner : MonoBehaviour
                 {
                     waveTextCanvasGroup.alpha = 1f; // Ensure visible for game completion
                 }
+                // Trigger scene transition after final wave is cleared
+                StartCoroutine(TransitionToVictoryScene());
             }
             // Wave text is set in GenerateWave for active waves
         }
@@ -146,7 +156,23 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    // NEW: Find a non-overlapping spawn position
+    // Coroutine to handle scene transition with a delay
+    private IEnumerator TransitionToVictoryScene()
+    {
+        // Wait for a short delay to show "Game Complete!" message
+        yield return new WaitForSeconds(2f);
+        if (!string.IsNullOrEmpty(victorySceneName))
+        {
+            Debug.Log($"Loading scene: {victorySceneName}");
+            SceneManager.LoadScene(victorySceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Victory scene name not set in WaveSpawner! Cannot load scene.");
+        }
+    }
+
+    // Find a non-overlapping spawn position
     private Vector3 GetNonOverlappingSpawnPosition(Vector3 basePosition)
     {
         Vector3 spawnPosition = basePosition;
@@ -183,6 +209,20 @@ public class WaveSpawner : MonoBehaviour
         // If no clear position found, return original position with warning
         Debug.LogWarning($"Could not find non-overlapping spawn position after {maxAttempts} attempts at {basePosition}. Using original position.");
         return basePosition;
+    }
+
+    // Method to immediately change to the GoodEnd scene
+    public void ChangeToGoodEnd()
+    {
+        if (!string.IsNullOrEmpty(victorySceneName))
+        {
+            Debug.Log($"Immediately loading scene: {victorySceneName}");
+            SceneManager.LoadScene(victorySceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Victory scene name not set in WaveSpawner! Cannot load scene.");
+        }
     }
 
     public void GenerateWave()
@@ -248,9 +288,13 @@ public class WaveSpawner : MonoBehaviour
     public void GenerateEnemies()
     {
         List<GameObject> generatedEnemies = new List<GameObject>();
-        if (enemies.Count == 0)
+        // Get the enemy config for the current wave (use last config if wave exceeds list length)
+        int configIndex = Mathf.Min(currentWave - 1, waveEnemyConfigs.Count - 1);
+        List<Enemy> allowedEnemies = waveEnemyConfigs[configIndex].allowedEnemies;
+
+        if (allowedEnemies.Count == 0)
         {
-            Debug.LogWarning("No enemies assigned to WaveSpawner!");
+            Debug.LogWarning($"No enemies assigned for Wave {currentWave} in WaveEnemyConfig!");
             return;
         }
 
@@ -260,12 +304,12 @@ public class WaveSpawner : MonoBehaviour
         int enemyCount = 0; // Track number of enemies generated
         while (waveValue > 0 && enemyCount < waveMaxEnemies)
         {
-            int randEnemy = Random.Range(0, enemies.Count);
-            int randEnemyCost = enemies[randEnemy].cost;
+            int randEnemy = Random.Range(0, allowedEnemies.Count);
+            int randEnemyCost = allowedEnemies[randEnemy].cost;
 
             if (waveValue - randEnemyCost >= 0)
             {
-                generatedEnemies.Add(enemies[randEnemy].enemyPrefab);
+                generatedEnemies.Add(allowedEnemies[randEnemy].enemyPrefab);
                 waveValue -= randEnemyCost;
                 enemyCount++;
             }
