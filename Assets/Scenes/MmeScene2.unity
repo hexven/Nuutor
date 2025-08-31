@@ -217,6 +217,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &48085119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48085120}
+  m_Layer: 0
+  m_Name: Ammopoint (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &48085120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48085119}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -51.5, y: -7.93, z: 33.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500543958}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &51978464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4278,6 +4309,9 @@ MonoBehaviour:
   - {fileID: 1048269569}
   - {fileID: 1533367013}
   - {fileID: 1047211448}
+  - {fileID: 1620220608}
+  - {fileID: 1917510729}
+  - {fileID: 48085120}
   randomizePoints: 1
   perPointRespawn: 1
   spawnOnStart: 1
@@ -4315,9 +4349,12 @@ Transform:
   - {fileID: 1922798550}
   - {fileID: 2096472592}
   - {fileID: 418517315}
+  - {fileID: 48085120}
   - {fileID: 1769053435}
   - {fileID: 244325899}
   - {fileID: 1048269569}
+  - {fileID: 1620220608}
+  - {fileID: 1917510729}
   - {fileID: 1533367013}
   - {fileID: 1047211448}
   m_Father: {fileID: 0}
@@ -14660,6 +14697,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 467108240}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1620220607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620220608}
+  m_Layer: 0
+  m_Name: Ammopoint (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1620220608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620220607}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.69, y: -7.93, z: -0.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500543958}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1628615904
 GameObject:
   m_ObjectHideFlags: 0
@@ -15131,6 +15199,10 @@ PrefabInstance:
       propertyPath: dashClip
       value: 
       objectReference: {fileID: 8300000, guid: 96827c87be2ed46c8954734f52b9320b, type: 3}
+    - target: {fileID: 2502378392050301326, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+      propertyPath: dashVolume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2881832412945503262, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 467.24
@@ -17181,6 +17253,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 3e5a16d867b6649ec8080f2a407b0c31, type: 3}
+--- !u!1 &1917510728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1917510729}
+  m_Layer: 0
+  m_Name: Ammopoint (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1917510729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917510728}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -33.78, y: -7.93, z: -0.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500543958}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1922798549
 GameObject:
   m_ObjectHideFlags: 0
