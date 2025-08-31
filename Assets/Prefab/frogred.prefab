@@ -175,13 +175,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   range: 5
-  cooldownSeconds: 1
+  cooldownSeconds: 3
   damagePerHit: 10
   pushForce: 20
   pushUpward: 5
   pushDuration: 0.45
   audioSource: {fileID: 0}
-  attackClips: []
+  attackClips:
+  - {fileID: 8300000, guid: 34bef8d142b314b6285ac912aac833ef, type: 3}
   attackVolume: 1
   randomizePitch: 0
   minPitch: 0.95
@@ -258,4 +259,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b01aaa8b402f4edcaf1a951b6113b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 18
