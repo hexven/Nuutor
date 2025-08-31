@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    [Header("Hit Points")]
+    [SerializeField] private int shotsToDestroy = 1;
+    private int hitsRemaining;
+
     [Header("Death Audio")]
     [SerializeField] private AudioClip[] deathClips;
     [SerializeField] private float volume = 1f;
@@ -13,6 +17,11 @@ public class Target : MonoBehaviour
     [SerializeField] private float maxDistance = 25f;
 
     private static bool isQuitting;
+
+    void Awake()
+    {
+        hitsRemaining = Mathf.Max(1, shotsToDestroy);
+    }
 
     void OnApplicationQuit()
     {
@@ -53,5 +62,15 @@ public class Target : MonoBehaviour
         src.rolloffMode = AudioRolloffMode.Linear;
         src.Play();
         Destroy(audioGO, clip.length / Mathf.Max(0.1f, src.pitch) + 0.05f);
+    }
+
+    public void ApplyHit(int damage = 1)
+    {
+        int d = Mathf.Max(1, damage);
+        hitsRemaining -= d;
+        if (hitsRemaining <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
