@@ -502,7 +502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &27570194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3978,6 +3978,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4908527585859546150, guid: 0dfacea3db68749369cc85a02250c438, type: 3}
   m_PrefabInstance: {fileID: 160904711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &161323582 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2881832412945503262, guid: 9c80812aaa0e54276bddd8edc482a4f9, type: 3}
+  m_PrefabInstance: {fileID: 1655068009}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &162853042 stripped
 GameObject:
@@ -33251,7 +33256,7 @@ Transform:
   m_GameObject: {fileID: 1070441130}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 484.53, y: 12.41, z: 168.7}
+  m_LocalPosition: {x: 484.53, y: 11.86, z: 168.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41451,7 +41456,7 @@ Transform:
   m_GameObject: {fileID: 1333918127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 497.67, y: 11.95, z: 142.8}
+  m_LocalPosition: {x: 497.67, y: 9.44, z: 142.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47371,7 +47376,7 @@ Transform:
   m_GameObject: {fileID: 1502479128}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 437.74, y: 11.95, z: 150.18}
+  m_LocalPosition: {x: 434.74, y: 15.31, z: 151.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67576,7 +67581,7 @@ GameObject:
   - component: {fileID: 2005249960}
   m_Layer: 3
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -69589,6 +69594,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 161323582}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: waveText
       value: 
