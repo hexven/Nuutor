@@ -256,7 +256,7 @@ MonoBehaviour:
   randomizePitch: 0
   minPitch: 0.95
   maxPitch: 1.05
-  animator: {fileID: 0}
+  animator: {fileID: 4963854445825902793}
 --- !u!1 &3103115540193108102
 GameObject:
   m_ObjectHideFlags: 0
