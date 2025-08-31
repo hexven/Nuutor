@@ -28,6 +28,11 @@ public class Playermovement : MonoBehaviour
     private float cooldownRemaining;
     private Vector3 dashDirection;
 
+    [Header("Dash Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip dashClip;
+    [SerializeField] private float dashVolume = 1f;
+
     [Header("Crosshair")]
     [SerializeField] private bool showCrosshair = true;
     [SerializeField] private int crosshairSize = 8;
@@ -63,6 +68,16 @@ public class Playermovement : MonoBehaviour
             crosshairTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
             crosshairTexture.SetPixel(0, 0, Color.white);
             crosshairTexture.Apply();
+        }
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+                audioSource.spatialBlend = 1f;
+            }
         }
     }
 
@@ -130,6 +145,10 @@ public class Playermovement : MonoBehaviour
             else
             {
                 dashDirection = transform.forward;
+            }
+            if (dashClip != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(dashClip, dashVolume);
             }
         }
 
