@@ -52,9 +52,14 @@ public class Shoot : MonoBehaviour
 
     [Header("Targeting")]
     [SerializeField] private float shootRange = 100f;
+    [SerializeField] private LayerMask shootLayers3D = ~0;
+    [SerializeField] private LayerMask shootLayers2D = ~0;
+
+    private Transform ownerRoot;
 
     void Awake()
     {
+        ownerRoot = transform.root;
         if (cameraTransform == null && Camera.main != null)
         {
             cameraTransform = Camera.main.transform;
@@ -231,22 +236,31 @@ public class Shoot : MonoBehaviour
         // Raycast from camera forward to hit targets under the crosshair (3D and 2D)
         if (cameraTransform != null)
         {
-            // 3D hit
+            // 3D hits (nearest-first), skip self, allow hitting through non-target colliders
             Ray ray3D = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray3D, out RaycastHit hitInfo3D, shootRange))
+            RaycastHit[] hits3D = Physics.RaycastAll(ray3D, shootRange, shootLayers3D, QueryTriggerInteraction.Ignore);
+            if (hits3D != null && hits3D.Length > 0)
             {
-                Target target3D = hitInfo3D.collider.GetComponentInParent<Target>();
-                if (target3D != null)
+                System.Array.Sort(hits3D, (a, b) => a.distance.CompareTo(b.distance));
+                for (int i = 0; i < hits3D.Length; i++)
                 {
-                    Destroy(target3D.gameObject);
-                    return;
-                }
+                    Collider col3D = hits3D[i].collider;
+                    if (col3D == null) continue;
+                    if (col3D.transform.root == ownerRoot) continue; // skip self/gun/player
 
-                SpriteRenderer sr3D = hitInfo3D.collider.GetComponentInParent<SpriteRenderer>();
-                if (sr3D != null)
-                {
-                    Destroy(sr3D.gameObject);
-                    return;
+                    Target target3D = col3D.GetComponentInParent<Target>();
+                    if (target3D != null)
+                    {
+                        Destroy(target3D.gameObject);
+                        return;
+                    }
+
+                    SpriteRenderer sr3D = col3D.GetComponentInParent<SpriteRenderer>();
+                    if (sr3D != null)
+                    {
+                        Destroy(sr3D.gameObject);
+                        return;
+                    }
                 }
             }
 
@@ -255,7 +269,7 @@ public class Shoot : MonoBehaviour
             if (cam != null)
             {
                 Ray ray2D = cam.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f));
-                RaycastHit2D[] hits2D = Physics2D.GetRayIntersectionAll(ray2D, shootRange);
+                RaycastHit2D[] hits2D = Physics2D.GetRayIntersectionAll(ray2D, shootRange, shootLayers2D);
                 if (hits2D != null && hits2D.Length > 0)
                 {
                     // Iterate nearest first
@@ -264,6 +278,7 @@ public class Shoot : MonoBehaviour
                     {
                         Collider2D col = hits2D[i].collider;
                         if (col == null) continue;
+                        if (col.transform.root == ownerRoot) continue; // skip self
 
                         Target target2D = col.GetComponentInParent<Target>();
                         if (target2D != null)

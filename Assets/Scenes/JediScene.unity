@@ -1073,6 +1073,7 @@ MonoBehaviour:
   randomizePitch: 0
   minPitch: 0.95
   maxPitch: 1.05
+  animator: {fileID: 0}
 --- !u!1 &1172650593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1151,9 @@ MonoBehaviour:
   - {fileID: 736781950}
   - {fileID: 578735820}
   randomizePoints: 1
+  perPointRespawn: 1
+  spawnOnStart: 1
+  respawnCooldownSeconds: 20
   maxCount: 10
   maintainCount: 1
   checkIntervalSeconds: 3
