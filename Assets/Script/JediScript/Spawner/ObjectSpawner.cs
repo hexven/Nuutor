@@ -12,6 +12,11 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private Transform[] explicitPoints;
     [SerializeField] private bool randomizePoints = true;
 
+    [Header("Per-Point Respawn Mode")]
+    [SerializeField] private bool perPointRespawn = true;
+    [SerializeField] private bool spawnOnStart = true;
+    [SerializeField] private float respawnCooldownSeconds = 180f; // 3 minutes
+
     [Header("Limits")]
     [SerializeField] private int maxCount = 10;
     [SerializeField] private bool maintainCount = true;
@@ -35,16 +40,53 @@ public class ObjectSpawner : MonoBehaviour
     private float nextCheckTime;
     private readonly List<GameObject> spawnedObjects = new List<GameObject>();
     private readonly List<Transform> spawnPoints = new List<Transform>();
+    private readonly List<GameObject> spawnedAtPoint = new List<GameObject>();
+    private readonly List<float> respawnReadyAt = new List<float>();
 
     void Start()
     {
         CollectSpawnPoints();
-        FillToMax();
+        if (perPointRespawn && useSpawnPoints)
+        {
+            InitializePointTracking();
+            if (spawnOnStart)
+            {
+                for (int i = 0; i < spawnPoints.Count; i++)
+                {
+                    SpawnAtPoint(i);
+                }
+            }
+        }
+        else
+        {
+            FillToMax();
+        }
         nextCheckTime = Time.time + checkIntervalSeconds;
     }
 
     void Update()
     {
+        if (perPointRespawn && useSpawnPoints)
+        {
+            // Per-point respawn logic
+            for (int i = 0; i < spawnPoints.Count; i++)
+            {
+                if (spawnedAtPoint[i] == null)
+                {
+                    if (respawnReadyAt[i] == 0f)
+                    {
+                        respawnReadyAt[i] = Time.time + respawnCooldownSeconds;
+                    }
+                    else if (Time.time >= respawnReadyAt[i])
+                    {
+                        SpawnAtPoint(i);
+                        respawnReadyAt[i] = 0f;
+                    }
+                }
+            }
+            return;
+        }
+
         if (!maintainCount || prefabToSpawn == null || maxCount <= 0)
         {
             return;
@@ -234,6 +276,17 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
+    private void InitializePointTracking()
+    {
+        spawnedAtPoint.Clear();
+        respawnReadyAt.Clear();
+        for (int i = 0; i < spawnPoints.Count; i++)
+        {
+            spawnedAtPoint.Add(null);
+            respawnReadyAt.Add(0f);
+        }
+    }
+
     private bool IsOccupied(Vector3 candidate)
     {
         if (minDistanceBetween <= 0f)
@@ -270,6 +323,35 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void SpawnAtPoint(int index)
+    {
+        if (prefabToSpawn == null) return;
+        if (index < 0 || index >= spawnPoints.Count) return;
+        Transform p = spawnPoints[index];
+        if (p == null) return;
+
+        Vector3 pos = p.position;
+        Quaternion rot = p.rotation;
+        if (projectToGround)
+        {
+            Vector3 rayStart = new Vector3(pos.x, pos.y + Mathf.Abs(raycastHeight), pos.z);
+            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Abs(raycastHeight) * 2f, groundLayers))
+            {
+                pos = hit.point;
+                pos.y += groundOffsetY;
+            }
+        }
+
+        GameObject obj = Instantiate(prefabToSpawn, pos, rot);
+        if (parentSpawnedUnderThis)
+        {
+            obj.transform.SetParent(transform, true);
+        }
+        spawnedAtPoint[index] = obj;
+        // Track also in global list for spacing checks if legacy logic used
+        spawnedObjects.Add(obj);
     }
 }
 
