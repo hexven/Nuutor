@@ -5579,7 +5579,7 @@ Transform:
   m_GameObject: {fileID: 193823929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 435.65, y: 11.84, z: 192.3}
+  m_LocalPosition: {x: 435.65, y: 12.6, z: 192.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38384,7 +38384,7 @@ Transform:
   m_GameObject: {fileID: 1070441130}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 484.53, y: 11.65, z: 168.7}
+  m_LocalPosition: {x: 484.53, y: 12.41, z: 168.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48536,7 +48536,7 @@ Transform:
   m_GameObject: {fileID: 1333918127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 497.67, y: 11.19, z: 142.8}
+  m_LocalPosition: {x: 497.67, y: 11.95, z: 142.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55600,7 +55600,7 @@ Transform:
   m_GameObject: {fileID: 1502479128}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 437.74, y: 11.19, z: 150.18}
+  m_LocalPosition: {x: 437.74, y: 11.95, z: 150.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -77948,7 +77948,7 @@ Transform:
   m_GameObject: {fileID: 1988891325}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 476.22, y: 11.19, z: 198.25}
+  m_LocalPosition: {x: 476.22, y: 11.95, z: 198.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81522,11 +81522,15 @@ PrefabInstance:
       objectReference: {fileID: 1655068011}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: activeEnemies.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: enemiesToSpawn.Array.size
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: spawnLocations.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[0]'
@@ -81540,6 +81544,26 @@ PrefabInstance:
       propertyPath: 'enemiesToSpawn.Array.data[2]'
       value: 
       objectReference: {fileID: 7875180280746422240, guid: a08b62d8c99e63f4b8d5f777b00d4cad, type: 3}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'spawnLocations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1502479129}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'spawnLocations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1333918128}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'spawnLocations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1070441131}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'spawnLocations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 193823930}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'spawnLocations.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1988891326}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
