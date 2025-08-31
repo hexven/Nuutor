@@ -46,7 +46,7 @@ public class Shoot : MonoBehaviour
     [Header("Ammo")]
     [SerializeField] private int magazineSize = 12;
     [SerializeField] private int currentAmmo = 6;
-    [SerializeField] private int reserveAmmo = 6;
+    [SerializeField] private int reserveAmmo = 1000;
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private int pickupAmount = 6;
 
@@ -186,12 +186,11 @@ public class Shoot : MonoBehaviour
         // Target pose relative to camera (so the gun stays aligned with the crosshair)
         Vector3 targetPosition = cameraTransform.TransformPoint(localPositionOffset + recoilLocalOffset + shakeLocalOffset);
         Quaternion targetRotation = cameraTransform.rotation * Quaternion.Euler(localEulerOffset);
-        if (reloadSpinAngle != 0f && cameraTransform != null)
+        if (reloadSpinAngle != 0f)
         {
-            // Always tilt toward aim: rotate around camera's right axis
+            // Apply a consistent local-axis tilt (weapon's local right axis)
             float signedAngle = reloadSpinAngle * reloadSpinDirection;
-            Vector3 axis = cameraTransform.right;
-            targetRotation *= Quaternion.AngleAxis(signedAngle, axis);
+            targetRotation *= Quaternion.AngleAxis(signedAngle, Vector3.right);
         }
 
         // Optional custom rotation offset for aiming
@@ -308,17 +307,8 @@ public class Shoot : MonoBehaviour
         }
         reloadSpinTimeRemaining = reloadSpinDuration;
         reloadSpinAngle = 0f;
-        // Determine spin direction from aim vertical movement
-        float mouseY = Input.GetAxis("Mouse Y");
-        if (mouseY > 0.001f)
-        {
-            reloadSpinDirection = 1;
-        }
-        else if (mouseY < -0.001f)
-        {
-            reloadSpinDirection = -1;
-        }
-        // if ~0, keep previous direction
+        // Use a constant spin direction for consistent rotation
+        reloadSpinDirection = 1;
         return true;
     }
 
