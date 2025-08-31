@@ -35,6 +35,14 @@ public class Playermovement : MonoBehaviour
     [SerializeField] private Color crosshairColor = Color.white;
     private static Texture2D crosshairTexture;
 
+    [Header("Head Bob")]
+    [SerializeField] private bool enableHeadBob = true;
+    [SerializeField] private float headBobAmplitude = 0.03f;
+    [SerializeField] private float headBobFrequency = 12f;
+    [SerializeField] private float headBobSwayAmplitude = 0.02f;
+    private float headBobTimer;
+    private Vector3 cameraDefaultLocalPos;
+
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -66,6 +74,10 @@ public class Playermovement : MonoBehaviour
         if (cameraComponent != null)
         {
             initialFOV = cameraComponent.fieldOfView;
+        }
+        if (cameraTransform != null)
+        {
+            cameraDefaultLocalPos = cameraTransform.localPosition;
         }
     }
 
@@ -165,6 +177,25 @@ public class Playermovement : MonoBehaviour
                 targetFOV,
                 Time.deltaTime * fovLerpSpeed
             );
+        }
+
+        // Head bob while walking
+        if (enableHeadBob && cameraTransform != null)
+        {
+            bool isMoving = inputDirection.sqrMagnitude > 0.0001f && characterController.isGrounded;
+            if (isMoving)
+            {
+                float speedFactor = isDashing ? dashMultiplier : Mathf.Max(0.5f, currentSpeed / Mathf.Max(0.001f, moveSpeed));
+                headBobTimer += Time.deltaTime * headBobFrequency * speedFactor;
+                float bobY = Mathf.Sin(headBobTimer) * headBobAmplitude;
+                float bobX = Mathf.Cos(headBobTimer * 0.5f) * headBobSwayAmplitude;
+                Vector3 targetLocal = cameraDefaultLocalPos + new Vector3(bobX, bobY, 0f);
+                cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, targetLocal, Time.deltaTime * 10f);
+            }
+            else
+            {
+                cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, cameraDefaultLocalPos, Time.deltaTime * 10f);
+            }
         }
     }
 
