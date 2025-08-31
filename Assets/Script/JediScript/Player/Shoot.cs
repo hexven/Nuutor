@@ -157,7 +157,7 @@ public class Shoot : MonoBehaviour
         rt.sizeDelta = new Vector2(300f, 80f);
 
         TextMeshProUGUI tmp = textGO.AddComponent<TextMeshProUGUI>();
-        tmp.text = $"{currentAmmo}/{magazineSize}";
+        tmp.text = $"{currentAmmo}/{reserveAmmo}";
         tmp.fontSize = 36f;
         tmp.alignment = TextAlignmentOptions.BottomRight;
         tmp.color = Color.white;

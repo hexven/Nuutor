@@ -1907,6 +1907,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2454125923039972447, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
+      propertyPath: m_text
+      value: '6/1000
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 5893688457987881539, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.47077
@@ -1954,6 +1960,18 @@ PrefabInstance:
     - target: {fileID: 8122695035091819317, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
       propertyPath: m_Name
       value: Player2v
+      objectReference: {fileID: 0}
+    - target: {fileID: 8898119281784748185, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
+      propertyPath: dashClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 96827c87be2ed46c8954734f52b9320b, type: 3}
+    - target: {fileID: 8898119281784748185, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
+      propertyPath: dashVolume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219434787176063587, guid: 256f4ec7393d24e568f31a3163d049c8, type: 3}
+      propertyPath: reserveAmmo
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
