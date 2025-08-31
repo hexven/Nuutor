@@ -254,7 +254,7 @@ public class Shoot : MonoBehaviour
                     Target target3D = col3D.GetComponentInParent<Target>();
                     if (target3D != null)
                     {
-                        Destroy(target3D.gameObject);
+                        target3D.ApplyHit(1);
                         return;
                     }
 
@@ -282,7 +282,7 @@ public class Shoot : MonoBehaviour
                         Target target3D = col3D.GetComponentInParent<Target>();
                         if (target3D != null)
                         {
-                            Destroy(target3D.gameObject);
+                            target3D.ApplyHit(1);
                             return;
                         }
 
@@ -315,7 +315,7 @@ public class Shoot : MonoBehaviour
                         Target target2D = col.GetComponentInParent<Target>();
                         if (target2D != null)
                         {
-                            Destroy(target2D.gameObject);
+                            target2D.ApplyHit(1);
                             return;
                         }
 
@@ -349,7 +349,7 @@ public class Shoot : MonoBehaviour
                             Target target2D = col.GetComponentInParent<Target>();
                             if (target2D != null)
                             {
-                                Destroy(target2D.gameObject);
+                                target2D.ApplyHit(1);
                                 return;
                             }
 
