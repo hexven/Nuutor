@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cd7ebc7b7a242b6bae37723c2c6d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 95319112137673299, guid: c4a2116c63336435e8072cdc44461e3a, type: 3}
+  target: {fileID: 0}
   range: 5
   cooldownSeconds: 1
   damagePerHit: 10

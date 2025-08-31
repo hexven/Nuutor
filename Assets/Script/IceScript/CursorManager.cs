@@ -11,6 +11,23 @@ public class CursorManager : MonoBehaviour
 
     public AudioSource clickSound;
 
+    // Static instance to ensure only one CursorManager exists
+    private static CursorManager instance;
+
+    void Awake()
+    {
+        // Ensure only one instance of CursorManager exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
     void Start()
     {
         resizedCursor = ResizeTexture(normalCursor, 150, 150); 
