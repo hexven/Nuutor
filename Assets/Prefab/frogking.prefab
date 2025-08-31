@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 4608047608503512652}
   - component: {fileID: 8595273779938463756}
   - component: {fileID: 4963854445825902793}
-  - component: {fileID: 8540224275835669423}
+  - component: {fileID: 3568639758072908809}
+  - component: {fileID: 1127741001444239191}
   m_Layer: 0
   m_Name: frogking
   m_TagString: Untagged
@@ -32,9 +33,9 @@ Transform:
   m_GameObject: {fileID: 1451812924138272321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0718832, y: -1.74, z: 26.473093}
-  m_LocalScale: {x: 42.001488, y: 42.001488, z: 42.001488}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 24, y: 24.924103, z: 24.924103}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8449622097902410940}
   m_Father: {fileID: 0}
@@ -217,7 +218,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8540224275835669423
+--- !u!114 &3568639758072908809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,12 +227,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451812924138272321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b47100ddfa24a76bf31fc63e2077f0, type: 3}
+  m_Script: {fileID: 11500000, guid: b93a81b705582427fab7a2648284a48e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHits: 20
-  healthBarImage: {fileID: 7073258989083243831}
-  projectileTag: PlayerProjectile
+  lockedYPosition: 20
+--- !u!114 &1127741001444239191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451812924138272321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2cd7ebc7b7a242b6bae37723c2c6d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 2
+  cooldownSeconds: 1
+  damagePerHit: 10
+  pushForce: 20
+  pushUpward: 5
+  pushDuration: 0.45
+  audioSource: {fileID: 0}
+  attackClips: []
+  attackVolume: 1
+  randomizePitch: 0
+  minPitch: 0.95
+  maxPitch: 1.05
+  animator: {fileID: 0}
 --- !u!1 &3103115540193108102
 GameObject:
   m_ObjectHideFlags: 0
