@@ -184,6 +184,7 @@ MonoBehaviour:
   randomizePitch: 0
   minPitch: 0.95
   maxPitch: 1.05
+  animator: {fileID: 0}
 --- !u!95 &8929669566516933641
 Animator:
   serializedVersion: 7

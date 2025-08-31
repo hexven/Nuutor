@@ -21,10 +21,15 @@ public class Attack : MonoBehaviour
     [SerializeField] private float minPitch = 0.95f;
     [SerializeField] private float maxPitch = 1.05f;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator; // Reference to the Animator component
+    private static readonly int AttackTrigger = Animator.StringToHash("Attack"); // Hash for the attack trigger parameter
+
     private float nextAttackTime;
 
     void Awake()
     {
+        // Find player if target is not assigned
         if (target == null)
         {
             GameObject player = GameObject.FindWithTag("Player");
@@ -38,6 +43,7 @@ public class Attack : MonoBehaviour
             }
         }
 
+        // Get or add AudioSource
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
@@ -48,12 +54,28 @@ public class Attack : MonoBehaviour
                 audioSource.spatialBlend = 1f;
             }
         }
+
+        // Get Animator component
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                animator = gameObject.AddComponent<Animator>();
+                Debug.LogWarning("Animator component was missing and has been added. Please assign an Animator Controller.");
+            }
+        }
     }
 
     void Update()
     {
         if (target == null)
         {
+            // Ensure idle animation when no target
+            if (animator != null)
+            {
+                animator.ResetTrigger(AttackTrigger);
+            }
             return;
         }
 
@@ -62,6 +84,19 @@ public class Attack : MonoBehaviour
         {
             nextAttackTime = Time.time + cooldownSeconds;
             TryDealDamage();
+            // Trigger attack animation
+            if (animator != null)
+            {
+                animator.SetTrigger(AttackTrigger);
+            }
+        }
+        else
+        {
+            // Reset to idle animation when out of range or on cooldown
+            if (animator != null)
+            {
+                animator.ResetTrigger(AttackTrigger);
+            }
         }
     }
 
