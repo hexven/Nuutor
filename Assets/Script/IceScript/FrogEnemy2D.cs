@@ -5,33 +5,42 @@ public class FrogEnemy2D : MonoBehaviour
     public float jumpHeight = 2f;       // ความสูงในการกระโดด
     public float jumpSpeed = 5f;        // ความเร็วในการกระโดด
     public float waitTime = 0.5f;       // เวลาพักระหว่างกระโดด
-    public float jumpStepDistance = 1f; // ระยะกระโดดทีละนิด
-    public float groundLevel = 0f;      // NEW: Define the ground level (adjust in Inspector if needed)
+    public float maxJumpDistance = 3f;  // ระยะกระโดดสูงสุดต่อครั้ง
+    public float groundCheckDistance = 0.2f; // ระยะตรวจจับพื้น
+    public LayerMask groundLayer;       // เลเยอร์สำหรับพื้น
 
     private GameObject player;
     private bool isJumping = false;
+    private bool isGrounded = false;
     private Vector2 startPos;
     private Vector2 targetPos;
     private float timer;
-
     private SpriteRenderer spriteRenderer;
+    private BoxCollider2D boxCollider;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null) Debug.LogError("ไม่พบ GameObject ที่มี Tag 'Player'");
+        TryFindPlayer();
         timer = waitTime;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        // Set ground level to the initial Y-position if not specified
-        if (groundLevel == 0f) groundLevel = transform.position.y;
+        boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider == null) Debug.LogError("ไม่พบ BoxCollider2D ใน FrogEnemy2D");
     }
 
     void Update()
     {
-        if (player == null) return;
+        // พยายามหา player ถ้ายังไม่พบ
+        if (player == null)
+        {
+            TryFindPlayer();
+            return;
+        }
 
-        if (!isJumping)
+        // ตรวจสอบว่าแตะพื้นหรือไม่
+        CheckGround();
+
+        if (!isJumping && isGrounded && player != null)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -39,7 +48,7 @@ public class FrogEnemy2D : MonoBehaviour
                 StartJump();
             }
         }
-        else
+        else if (isJumping)
         {
             PerformJump();
         }
@@ -48,22 +57,59 @@ public class FrogEnemy2D : MonoBehaviour
         transform.rotation = Quaternion.identity;
 
         // Flip Sprite ตามทิศทาง
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && player != null)
         {
             spriteRenderer.flipX = player.transform.position.x < transform.position.x;
         }
     }
 
+    void TryFindPlayer()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) Debug.LogWarning("ไม่พบ GameObject ที่มี Tag 'Player' - จะพยายามค้นหาอีกครั้ง");
+    }
+
+    void CheckGround()
+    {
+        // ใช้ Raycast เพื่อตรวจจับพื้น
+        Vector2 rayOrigin = (Vector2)transform.position + boxCollider.offset;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, groundCheckDistance, groundLayer);
+        
+        // วาด raycast เพื่อ debug
+        Debug.DrawRay(rayOrigin, Vector2.down * groundCheckDistance, Color.red);
+        
+        isGrounded = hit.collider != null;
+
+        // ปรับตำแหน่งให้อยู่เหนือพื้นถ้าตกลงไป
+        if (hit.collider != null && transform.position.y < hit.point.y)
+        {
+            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+            isJumping = false; // หยุดการกระโดดถ้าปรับตำแหน่ง
+        }
+    }
+
     void StartJump()
     {
+        if (!isGrounded || player == null) return;
+
         isJumping = true;
         startPos = transform.position;
 
-        // คำนวณทิศทางไปยัง player
-        Vector2 direction = ((Vector2)player.transform.position - startPos).normalized;
+        // คำนวณทิศทางและระยะทางไปยัง player
+        Vector2 playerPos = player.transform.position;
+        Vector2 direction = (playerPos - startPos).normalized;
+        float distanceToPlayer = Vector2.Distance(startPos, playerPos);
 
-        // กำหนดเป้าหมายทีละนิด (only X-axis movement, keep Y at ground level)
-        targetPos = new Vector2(startPos.x + direction.x * jumpStepDistance, groundLevel);
+        // จำกัดระยะกระโดดไม่ให้เกิน maxJumpDistance
+        float jumpDistance = Mathf.Min(distanceToPlayer, maxJumpDistance);
+        targetPos = startPos + direction * jumpDistance;
+
+        // ตรวจสอบว่าตำแหน่งเป้าหมายอยู่เหนือพื้น
+        RaycastHit2D targetHit = Physics2D.Raycast(targetPos, Vector2.down, groundCheckDistance, groundLayer);
+        if (targetHit.collider != null)
+        {
+            targetPos.y = targetHit.point.y; // ปรับ Y ให้อยู่ที่พื้น
+        }
 
         timer = 0;
     }
@@ -77,16 +123,24 @@ public class FrogEnemy2D : MonoBehaviour
         float height = Mathf.Sin(Mathf.PI * timer) * jumpHeight;
         newPos.y += height;
 
-        // Ensure Y-position doesn’t go below ground level
-        newPos.y = Mathf.Max(newPos.y, groundLevel);
-
-        // ตั้ง Z คงที่ 0
-        transform.position = new Vector3(newPos.x, newPos.y, 0f);
+        // ตั้งตำแหน่งใหม่
+        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
 
         if (timer >= 1f)
         {
             isJumping = false;
             timer = waitTime;
+        }
+    }
+
+    // ใช้สำหรับ debug ใน Unity Editor
+    void OnDrawGizmos()
+    {
+        if (boxCollider != null)
+        {
+            Gizmos.color = Color.red;
+            Vector2 rayOrigin = (Vector2)transform.position + boxCollider.offset;
+            Gizmos.DrawLine(rayOrigin, rayOrigin + Vector2.down * groundCheckDistance);
         }
     }
 }

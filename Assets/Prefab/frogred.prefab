@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8929669566516933641}
   - component: {fileID: -8692673281701289308}
   - component: {fileID: 5320425115932435706}
+  - component: {fileID: 8313558565916983743}
   m_Layer: 0
   m_Name: frogred
   m_TagString: Untagged
@@ -105,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1aba1348eae94e538fa064920fb030a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotsToDestroy: 1
   deathClips: []
   volume: 1
   randomizePitch: 1
@@ -214,7 +216,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650142800734923271}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2cb8f68bfd4345dc9e86dfd1f91f2bc, type: 3}
   m_Name: 
@@ -222,11 +224,11 @@ MonoBehaviour:
   jumpHeight: 5
   jumpSpeed: 6
   waitTime: 0.5
-  jumpStepDistance: 2
-  terrainLayer:
+  maxJumpDistance: 3
+  groundCheckDistance: 0.2
+  groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  raycastHeight: 10
 --- !u!114 &5320425115932435706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +246,16 @@ MonoBehaviour:
   rotateOnlyAroundY: 1
   invertFacing: 0
   rotateLerpSpeed: 0
+--- !u!114 &8313558565916983743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650142800734923271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b01aaa8b402f4edcaf1a951b6113b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
