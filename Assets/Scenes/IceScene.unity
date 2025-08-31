@@ -1696,9 +1696,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5893688459045683908}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: maxWaves
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: waveText
       value: 
       objectReference: {fileID: 1001126574}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: waveDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: enemyCountText
       value: 
@@ -1759,6 +1767,18 @@ PrefabInstance:
       propertyPath: 'spawnLocations.Array.data[7]'
       value: 
       objectReference: {fileID: 1177753635}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'maxEnemiesPerWave.Array.data[0]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'maxEnemiesPerWave.Array.data[1]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
+      propertyPath: 'maxEnemiesPerWave.Array.data[2]'
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5580389466783712674, guid: 392b199813f2c4dc78ce2db26921e329, type: 3}
       propertyPath: 'maxEnemiesPerWave.Array.data[3]'
       value: 1
