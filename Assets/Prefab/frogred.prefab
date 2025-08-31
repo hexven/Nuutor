@@ -223,7 +223,10 @@ MonoBehaviour:
   jumpSpeed: 6
   waitTime: 0.5
   jumpStepDistance: 2
-  groundLevel: 0
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  raycastHeight: 10
 --- !u!114 &5320425115932435706
 MonoBehaviour:
   m_ObjectHideFlags: 0
